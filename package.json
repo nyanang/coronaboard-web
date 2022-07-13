@@ -14,20 +14,25 @@
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
   },
   "dependencies": {
-    "@emotion/react": "^11.1.5",
+    "@emotion/css": "^11.9.0",
+    "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.3.0",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "date-fns": "^2.21.1",
     "date-fns-tz": "^1.1.4",
     "echarts": "^5.1.2",
+    "fs-extra": "^10.0.0",
     "gatsby": "^3.10.2",
+    "gatsby-config": "^0.1.1",
     "gatsby-plugin-emotion": "^6.3.0",
+    "javascript-time-ago": "^2.3.7",
     "lodash": "^4.17.20",
     "react": "^17.0.1",
     "react-bootstrap": "^1.6.1",
     "react-dom": "^17.0.1",
     "react-google-charts": "^3.0.15",
+    "react-scroll": "^1.8.2",
     "react-select": "^4.3.1"
   },
   "devDependencies": {

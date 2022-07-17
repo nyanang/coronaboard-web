@@ -1,10 +1,12 @@
+import React, {useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React from 'react';
-import {Slide} from '../components/slide';
-import { css }  from '@emotion/react';
-import { last } from 'lodash';
+import { css, Global }  from '@emotion/react';
 import { Dashboard } from '../components/dashboard';
 import { Notice } from '../components/notice';
+import { GlobalSlide } from '../components/global-slide';
+import { globalChartSlide } from '../components/global-chart-slide';
+import {Slide} from '../components/slide';
+import { last } from 'lodash';
 
 export default function SinglePage({ pageContext}) {
     // pageContext를 통해 전달된 데이터를 추출해서 사용
@@ -51,6 +53,9 @@ export default function SinglePage({ pageContext}) {
             <Dashboard globalStats={globalStats} />
             <Notice notice={notice} />
 
+
+            <GlobalSlide id="global-slide" dataSource={dataSource} />
+            <globalChartSlide id="global-chart-slide" dataSource={dataSource} />
             {/* <Slide title = "국가별 현황"> 국가별 현황을 보여줍니다. </Slide> */}
             {/* <Slide title = {'대한민국 지역별 현황'}>
                 대한민국 지역별 현황을 보여줍니다.     

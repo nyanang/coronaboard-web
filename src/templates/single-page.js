@@ -7,6 +7,9 @@ import { GlobalSlide } from '../components/global-slide';
 import { globalChartSlide } from '../components/global-chart-slide';
 import {Slide} from '../components/slide';
 import { last } from 'lodash';
+import { KoreaChartSlide } from '../components/korea-chart-slide';
+import { YoutubeSlide } from '../components/youtube-slide';
+
 
 export default function SinglePage({ pageContext}) {
     // pageContext를 통해 전달된 데이터를 추출해서 사용
@@ -56,6 +59,10 @@ export default function SinglePage({ pageContext}) {
 
             <GlobalSlide id="global-slide" dataSource={dataSource} />
             <globalChartSlide id="global-chart-slide" dataSource={dataSource} />
+
+            <KoreaChartSlide id = "korea-chart-slide" dataSource={dataSource} />
+            <YoutubeSlide id = "youtube-slide" dataSource={dataSource} />
+            
             {/* <Slide title = "국가별 현황"> 국가별 현황을 보여줍니다. </Slide> */}
             {/* <Slide title = {'대한민국 지역별 현황'}>
                 대한민국 지역별 현황을 보여줍니다.     

@@ -35,7 +35,7 @@ export function formatDiffForTable(cur, prevOptional) {
 }
 
 // yyyy-MM-dd 형식을 간결하게 M.d로 변환
-export function converToMonthDay(dateString) {
+export function convertToMonthDay(dateString) {
     return format(parseISO(dateString), 'M.d');
 }
 

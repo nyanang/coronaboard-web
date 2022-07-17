@@ -6,11 +6,15 @@ const _ = require('lodash');
 const countryInfo = require('../../coronaboard/tools/downloaded/countryInfo.json');
 const ApiClient = require('./api-client');
 
+
 // 구글 시트로부터 내려받은 공지사항 목록 로드
 const notice = require('../../coronaboard/tools/downloaded/notice.json');
 
 const path = require('path');
 const fs = require('fs-extra');
+
+const { getYouTubeVideosByKeyword } = require('./youtube');
+
 
 async function getDataSource(){
     const countryByCc = _.keyBy(countryInfo, 'cc');
@@ -26,10 +30,18 @@ async function getDataSource(){
     const globalChartDataByCc = generateGlobalChartDataByCc(groupedByDate);
 
     Object.keys(globalChartDataByCc).forEach((cc) => {
-        // static/generated 디렉터리는 데이터에따라 매번 생성되는 파일이기 때문에 .gitignore에 추가해서 git 저장소에 추가되지 않도록 할것
-        const genPath = path.join(process.cwd(), `static/generated/${cc}.json`);
-        fs.outputFileSync(genPath, JSON.stringify(globalChartDataByCc[cc]));
-      });
+      // static/generated 디렉터리는 데이터에따라 매번 생성되는 파일이기 때문에 .gitignore에 추가해서 git 저장소에 추가되지 않도록 할것
+      const genPath = path.join(process.cwd(), `static/generated/${cc}.json`);
+      fs.outputFileSync(genPath, JSON.stringify(globalChartDataByCc[cc]));
+    });
+
+
+    //검사 현황 차트 데이터 생성
+    const koreaTestChartData = generateKoreaTestChartData(allGlobalStats);
+    // 7장에서 수집해서 저장해둔 연령대별, 성별 통계 로드
+    const { byAge, bySex } = await apiClient.getByAgeAndBySex();
+
+    const youtubeVideos = await getYouTubeVideosByKeyword('코로나19');
 
     return{
         lastUpdated: Date.now(), // 데이터를 만든 현재 시간 기록
@@ -37,7 +49,23 @@ async function getDataSource(){
         countryByCc,
         //공지사항 몽록 중 hidden 필드가 false인 항목만 필터하여 전달
         notice: notice.filter((x) => !x.hidden),
+        koreaTestChartData,
+        koreaBySexChartData: bySex,
+        koreaByAgeChartData: byAge,
+        youtubeVideos,
     };
+}
+
+function generateKoreaTestChartData(allGlobalStats) {
+  const krData = allGlobalStats.filter((x) => x.cc === 'KR');
+
+  return {
+    date: krData.map((x) => x.date),
+    confirmedRate: krData.map((x) => x.confirmed / (x.confirmed + x.negative)),
+    confirmed: krData.map((x) => x.confirmed),
+    negative: krData.map((x) => x.negative),
+    testing: krData.map((x) => x.testing),
+  };
 }
 
 function generateGlobalStats(groupedByDate){
